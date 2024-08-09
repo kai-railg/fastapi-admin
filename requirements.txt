@@ -1,0 +1,12 @@
+
+fastapi==0.112.0
+pydantic==2.8.2
+click==8.1.7
+uvicorn==0.30.5
+greenlet==3.0.3
+sqlalchemy==2.0.32
+asyncpg==0.29.0
+redis==5.0.8
+loguru==0.7.2
+pyfiglet==1.0.2
+termcolor==2.4.0
