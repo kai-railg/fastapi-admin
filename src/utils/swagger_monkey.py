@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 
 def use_static_swagger(app):
 
-    app.mount("/static", StaticFiles(directory="src/static"), name="static")
+    app.mount("/static", StaticFiles(directory="src/static/swagger"), name="static")
 
     @app.get("/docs", include_in_schema=False)
     async def custom_swagger_ui_html():

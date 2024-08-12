@@ -6,6 +6,8 @@ from typing import List
 
 from fastapi import APIRouter
 
+from src.schema import StdRes
+
 
 class BaseApiView(object):
 
@@ -75,6 +77,7 @@ class BaseApiView(object):
                 route.add_api_route(
                     path,
                     self.func_decorator(func),
+                    # response_model=StdRes,
                     methods=[method.upper()],
                     description=self.description,
                     summary=self.summary,

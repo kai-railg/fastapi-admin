@@ -92,7 +92,8 @@ def get_logger(log_name: str, bk=None, **kwargs):
 f_log = get_logger("f_log")
 request_post_log = get_logger("request_post")
 request_get_log  = get_logger("request_get")
-
+request_send_log = get_logger("request_send")
+dao_log = get_logger("dao_log")
 
 # 不同level
 # logger.trace("A trace message.")

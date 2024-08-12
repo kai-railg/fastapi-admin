@@ -8,7 +8,8 @@ from src.aop import (
     only_one_exec_decorate
 )
 from src.oop import new_router
-from src.api.views import ApiView
+from src.api.views import *
+from src.schema import StdRes
 
 
 router = new_router()

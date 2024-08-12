@@ -86,3 +86,4 @@ test.py
 # static/
 
 .flake8
+.vscode
