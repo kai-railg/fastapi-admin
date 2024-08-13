@@ -25,6 +25,5 @@ match REDIS_CONNECT_TYPE:
             REDIS_SENTINEL_MASTER,
             **{"password": REDIS_PASSWORD, "port": REDIS_PORT, "db": REDIS_DB}
         )
-
     case _:
         raise ValueError("REDIS_CONNECT_TYPE must be redis or redis_sentinel")

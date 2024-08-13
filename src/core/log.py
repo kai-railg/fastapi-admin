@@ -7,9 +7,6 @@ from loguru import logger
 
 LOG_DIR = "./log"
 
-logger.remove(0)
-logger.add(sys.stderr, level="ERROR")
-logger.add(f"{LOG_DIR}/console.log", level="DEBUG")
 
 # 用于区分不同的日志句柄
 def log_name_filter(**kwargs):
@@ -34,7 +31,7 @@ def custom_format(record) -> str:
     for k, v in extra_data.items():
         if k == "log_name":
             continue
-        fmd_list.append(f"{k}:{v}")
+        fmd_list.append(f"{k}={v}")
 
     if fmd_list:
         format_str += f" | {','.join(fmd_list)}"
@@ -88,12 +85,25 @@ def get_logger(log_name: str, bk=None, **kwargs):
     return logger.bind(**bk)
 
 
+def patching(record):
+    # 避免如下代码的报错
+    # print("message is {'key': 'value'}".format_map({}))
+    record['message'] = record['message'].replace("{", "{{").replace("}", "}}")
+
+
+logger = logger.patch(patching)
+logger.remove(0)
+logger.add(sys.stderr, level="ERROR")
+logger.add(f"{LOG_DIR}/console.log", level="DEBUG")
+
 # fastapi_log
 f_log = get_logger("f_log")
 request_post_log = get_logger("request_post")
-request_get_log  = get_logger("request_get")
+request_get_log = get_logger("request_get")
 request_send_log = get_logger("request_send")
-dao_log = get_logger("dao_log")
+dao_log = get_logger("dao")
+websocket_log = get_logger("websocket")
+broad_log = get_logger("broad")
 
 # 不同level
 # logger.trace("A trace message.")
@@ -126,17 +136,17 @@ dao_log = get_logger("dao_log")
 # 更多信息
 # https://betterstack.com/community/guides/logging/loguru/
 
-if __name__ == "__main__":
-    f_log = get_logger("f_log")
-    f_log.info("f_log")
+# if __name__ == "__main__":
+#     f_log = get_logger("f_log")
+#     f_log.info("f_log")
 
-    request_post_log = get_logger("request_post")
+#     request_post_log = get_logger("request_post")
 
-    with request_post_log.contextualize(vehicle_id="001"):
-        request_post_log.error("request_post_log")
+#     with request_post_log.contextualize(vehicle_id="001"):
+#         request_post_log.error("request_post_log")
 
-    request_get_log = get_logger("request_get", bk={"vehicle_id": "002"})
-    request_get_log.error("request_get_log")
+#     request_get_log = get_logger("request_get", bk={"vehicle_id": "002"})
+#     request_get_log.error("request_get_log")
 
-    request_get_log = get_logger("request_get", bk={"vehicle_id": "003"})
-    request_get_log.error("request_get_log")
+#     request_get_log = get_logger("request_get", bk={"vehicle_id": "003"})
+#     request_get_log.error("request_get_log")
